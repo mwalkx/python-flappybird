@@ -1,11 +1,11 @@
-import pygame, random
+import pygame, random,  sys
 from pygame.locals import *
 
 SCREEN_WIDTH = 400
-SCREEN_HEIGHT = 800
-SPEED = 10
+SCREEN_HEIGHT = 600
+SPEED = 8
 GRAVITY = 1
-GAME_SPEED = 10
+GAME_SPEED = 3
 
 GROUND_WIDTH = 2 * SCREEN_WIDTH
 GROUND_HEIGHT = 100
@@ -160,5 +160,6 @@ while True:
     if (pygame.sprite.groupcollide(bird_group, ground_group, False, False, pygame.sprite.collide_mask) or
        pygame.sprite.groupcollide(bird_group, pipe_group, False, False, pygame.sprite.collide_mask)):
         # Game over
+        print("GameOver - hit return to quit.")
         input()
         break
