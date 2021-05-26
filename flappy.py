@@ -99,8 +99,13 @@ def get_random_pipes(xpos):
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
+pipes_passed = 0
+legend_top = "Flappy Pipe Count: "
+
 BACKGROUND = pygame.image.load('background-day.png')
 BACKGROUND = pygame.transform.scale(BACKGROUND, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+
 
 bird_group = pygame.sprite.Group()
 bird = Bird()
@@ -130,6 +135,16 @@ while True:
             if event.key == K_SPACE:
                 bird.bump()
 
+
+    # add legend
+    if pygame.font:
+        font = pygame.font.Font(None, 24)
+        legend_text = legend_top + str(pipes_passed)
+        text = font.render(legend_text, 1, (10,10,10))
+        textpos = text.get_rect(centerx=BACKGROUND.get_width() / 2)
+        BACKGROUND.blit(text, textpos)
+        # need to fix - this overlays number - split fields??
+
     screen.blit(BACKGROUND, (0, 0))
 
     if is_off_screen(ground_group.sprites()[0]):
@@ -147,6 +162,8 @@ while True:
         pipe_group.add(pipes[0])
         pipe_group.add(pipes[1])
 
+        pipes_passed = pipes_passed + 1
+
     bird_group.update()
     ground_group.update()
     pipe_group.update()
@@ -160,6 +177,6 @@ while True:
     if (pygame.sprite.groupcollide(bird_group, ground_group, False, False, pygame.sprite.collide_mask) or
        pygame.sprite.groupcollide(bird_group, pipe_group, False, False, pygame.sprite.collide_mask)):
         # Game over
-        print("GameOver - hit return to quit.")
+        print("GameOver - hit return to quit." + str(pipes_passed))
         input()
         break
